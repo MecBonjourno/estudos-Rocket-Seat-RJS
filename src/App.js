@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import api from './services/api';
 
 import './App.css';
-import backgroundImg from './assets/background.jpg'
+
 
 import Header from './components/Header'
 
@@ -12,7 +14,13 @@ import Header from './components/Header'
  */
 
 function App() {
-    const [projects, setProjects] = useState(["Desenvolvimento de app ", "Front-End Web"]);
+    const [projects, setProjects] = useState([]);
+
+    useEffect( () => {
+        api.get('/repositories').then(response => {
+            setProjects(response.data)
+        })
+    }, [])
 
     //useState retorna array com 2 positions
 
@@ -42,9 +50,14 @@ function App() {
             </ul>
         </Header>
         <Header title="Projects">
-            <img width={400} src={backgroundImg} />
+            
             <ul>
-                 {projects.map(project => <li key={project}>{project}</li>)}
+                 {projects.map(project => <div key={project.id}>
+                    <h1>{project.title}</h1> 
+                    <h3>{project.url}</h3>
+                     </div>
+                 
+                )}
             </ul>
         </Header>
 
