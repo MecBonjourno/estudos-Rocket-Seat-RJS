@@ -24,13 +24,22 @@ function App() {
 
     //useState retorna array com 2 positions
 
-    function handleAddProject() {
+    async function handleAddProject() {
 
         // projects.push(`Novo Projeto ${Date.now()}`);
 
-        setProjects([...projects, `Novo Projeto${Date.now()}`]);
+        // setProjects([...projects, `Novo Projeto${Date.now()}`]);
 
-        console.log(projects);
+      const response = await api.post('/repositories', {
+            title: `Novo Projeto${Date.now()}`,
+            url: "Zago"
+         })
+
+         const project = response.data
+
+         setProjects([...projects, project]);
+
+        // console.log(projects);
     }
 
     return (
